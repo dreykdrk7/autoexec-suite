@@ -1,6 +1,7 @@
 import subprocess
 import os
 import platform
+from config import *
 
 def clear_terminal():
     os_name = platform.system()     # Check the operating system
@@ -10,21 +11,23 @@ def clear_terminal():
         os.system("clear")
 
 
+def rename_terminal():
+    print(f"\033]0;{APPLICATION_NAME}\007", end='', flush=True)
+
 def get_screen_dimensions():
     output = subprocess.check_output("xdotool getdisplaygeometry", shell=True).decode('utf-8').strip()
     screen_width, screen_height = map(int, output.split())
     return screen_width, screen_height
 
 
-def position_terminal(corner=True, center=False, hidden_size=[400, 100], visible_size=[1000, 500]):
+def position_terminal(corner=True, center=False, hidden_size=[HIDDEN_WIDTH, HIDDEN_HEIGHT], visible_size=[TERMINAL_WIDTH, TERMINAL_HEIGHT]):
     screen_width, screen_height = get_screen_dimensions()
+    print(screen_height, screen_width)
     try:
         window_id = subprocess.check_output(["xdotool", "getactivewindow"]).decode('utf-8').strip()
         if corner:
             # Position in the bottom right corner and adjust to hidden_size
-            x = screen_width - hidden_size[0]
-            y = screen_height - hidden_size[1]
-            subprocess.run(["xdotool", "windowmove", window_id, str(x), str(y)])
+            subprocess.run(["xdotool", "windowmove", window_id, str(screen_width), str(screen_height)])
             subprocess.run(["xdotool", "windowsize", window_id] + list(map(str, hidden_size)))
         elif center:
             # Center the window and adjust to visible_size

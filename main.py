@@ -1,9 +1,14 @@
 from config import *
-from components.terminal_controller import clear_terminal, position_terminal
+from components.terminal_controller import rename_terminal, clear_terminal, position_terminal
+from components.menus import *
+
+actions = None
 
 if __name__ == '__main__':
 
     clear_terminal()
-    position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_HEIGHT])
-    print("HAllo")
+    rename_terminal()
+    position_terminal(corner=False, center=True)
+    
+    main()
     
