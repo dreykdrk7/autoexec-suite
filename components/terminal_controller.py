@@ -37,3 +37,19 @@ def position_terminal(corner=True, center=False, hidden_size=[HIDDEN_WIDTH, HIDD
             subprocess.run(["xdotool", "windowsize", window_id] + list(map(str, visible_size)))
     except subprocess.CalledProcessError as e:
         print("Could not adjust the terminal window")
+
+
+def minimize_terminal():
+    try:
+        window_id = subprocess.check_output(["xdotool", "search", "--name", f"{APPLICATION_NAME}"]).decode('utf-8').strip()
+        subprocess.run(["xdotool", "windowminimize", window_id])
+    except subprocess.CalledProcessError as e:
+        print("Could not minimize terminal window")
+
+
+def restore_terminal():
+    try:
+        window_id = subprocess.check_output(["xdotool", "search", "--name", f"{APPLICATION_NAME}"]).decode('utf-8').strip()
+        subprocess.run(["xdotool", "windowactivate", window_id])
+    except subprocess.CalledProcessError as e:
+        print("Could not restore terminal window")
