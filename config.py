@@ -13,5 +13,6 @@ HIDDEN_HEIGHT = 100
 SEQUENCE_PATH = './sequences/'
 
 
-## DEPENDENCIES
+## DEPENDENCIES !!! DO NOT MODIFY IN ANY CASE !!!
 actions = []
+running = True

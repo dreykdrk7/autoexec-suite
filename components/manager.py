@@ -1,8 +1,10 @@
 import json
 import os
 import pyautogui
-from components.terminal_controller import clear_terminal
-from config import SEQUENCE_PATH, actions
+from time import sleep
+from pynput import keyboard
+from components.terminal_controller import clear_terminal, minimize_terminal, restore_terminal
+from config import SEQUENCE_PATH, actions, running
 
 
 def save_sequence():
@@ -49,7 +51,10 @@ def select_sequence_file():
     try:
         selected_index = int(choice) - 1
         if selected_index >= 0 and selected_index < len(files):
-            load_sequence(os.path.join(SEQUENCE_PATH, files[selected_index]))
+            if load_sequence(os.path.join(SEQUENCE_PATH, files[selected_index])):
+                input(f"Secuencia cargada desde '{file_path}'.")
+            else:
+                input(f"Error al cargar la secuencia desde '{file_path}'.")
         else:
             input("Selección no válida.")
             return None
@@ -63,13 +68,18 @@ def load_sequence(file_path):
 
     try:
         with open(file_path, 'r') as file:
-            actions = json.load(file)
-        input(f"Secuencia cargada desde '{file_path}'.")
+            new_actions = json.load(file)
+            actions.clear()
+            actions.extend(new_actions)
+        return True
     except Exception as e:
-        input(f"Error al cargar la secuencia: {e}")
+        print(f"Error al cargar la secuencia: {e}")
+        return False
 
 
 def start_sequence():
+    global running
+    running = True
     clear_terminal()
 
     if len(actions) < 2:
@@ -78,41 +88,59 @@ def start_sequence():
 
     try:
         iterations = int(input("Introduce el número de veces que se va a repetir la secuencia (0 para infinito): "))
-        if iterations == 0:
-            print("Presiona Ctrl+C para detener la ejecución.")
-            while True:
-                execute_actions(actions, 1)
-        else:
-            execute_actions(actions, iterations)
+        execute_actions(iterations)
     except ValueError:
         print("Por favor, introduce un número válido.")
     except KeyboardInterrupt:
         print("\nEjecución cancelada antes de comenzar.")
 
 
-def execute_actions(actions, iterations):
+def on_press(key):
+    global running
+    if key == keyboard.Key.f2:
+        running = False
+        return False
+
+
+def execute_actions(iterations):
+    global running
+    print("Pulsa F2 en cualquier momento para detener la ejecución del bucle.\nComenzamos!")
+    sleep(5)
+    minimize_terminal()
+
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()
+    
     try:
-        for _ in range(iterations):
-            for action in actions:
-                action_type, *args = action
+        if iterations == 0:
+            while running:
+                for action in actions:
+                    if not running: break
+                    perform_action(action)
+        else:
+            for _ in range(iterations):
+                if not running: break
+                for action in actions:
+                    if not running: break
+                    perform_action(action)
+    finally:
+        listener.stop()
+    
+    restore_terminal()
+    input("Ejecución finalizada!\nPresione la tecla <Enter> para salir.")
 
-                if action_type == 'click':
-                    x, y = args
-                    pyautogui.click(x, y)
-                    print(f"Click realizado en ({x}, {y}).")
 
-                elif action_type == 'key':
-                    key = args[0]
-                    pyautogui.press(key)
-                    print(f"Tecla '{key}' presionada.")
-
-                elif action_type == 'write':
-                    text = args[0]
-                    pyautogui.write(text)
-                    print(f"Escribiendo texto: {text}")
-
-                else:
-                    print(f"Acción '{action_type}' no reconocida.")
-
-    except KeyboardInterrupt:
-        print("\nEjecución interrumpida por el usuario.")
+def perform_action(action):
+    action_type, *args = action
+    if action_type == 'click':
+        x, y = args
+        pyautogui.click(x, y)
+    elif action_type == 'key':
+        key = args[0]
+        pyautogui.press(key)
+    elif action_type == 'write':
+        text = args[0]
+        pyautogui.write(text)
+    elif action_type == 'pause':
+        pause_seconds = args[0]
+        sleep(pause_seconds)
