@@ -22,7 +22,7 @@ def get_screen_dimensions():
 
 def position_terminal(corner=True, center=False, hidden_size=[HIDDEN_WIDTH, HIDDEN_HEIGHT], visible_size=[TERMINAL_WIDTH, TERMINAL_HEIGHT]):
     screen_width, screen_height = get_screen_dimensions()
-    print(screen_height, screen_width)
+
     try:
         window_id = subprocess.check_output(["xdotool", "getactivewindow"]).decode('utf-8').strip()
         if corner:

@@ -1,14 +1,26 @@
-from config import *
+from config import actions, SEQUENCE_PATH
 from components.terminal_controller import rename_terminal, clear_terminal, position_terminal
-from components.menus import *
+from components.menus import main
+from components.manager import load_sequence, execute_actions
+import argparse
 
-actions = None
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Automatiza secuencias de acciones.')
+    parser.add_argument('-from', type=str, help='Carga un archivo de secuencia específico.')
+    parser.add_argument('-n', type=int, default=1, help='Establece el número de iteraciones para la secuencia.')
+    return parser.parse_args()
 
 if __name__ == '__main__':
+    args = parse_arguments()
 
     clear_terminal()
     rename_terminal()
     position_terminal(corner=False, center=True)
     
-    main()
-    
+    try:
+        if args.file:
+            file_path = os.path.join(SEQUENCE_PATH, args.file)
+            load_sequence(file_path)
+            execute_actions(args.n)
+    except:
+        main()
