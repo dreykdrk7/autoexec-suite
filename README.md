@@ -15,15 +15,15 @@ Desde la automatización de procesos de software, hasta la gestión de datos y l
 AutoExec Suite ofrece una variedad de características para facilitar la creación de secuencias de automatización personalizadas:
 
 
-- Añadir click automático: permite simular clics del ratón en puntos específicos de la pantalla, útil para interactuar con aplicaciones y sitios web.
-- Añadir click izquierdo/derecho: ofrece la posibilidad de añadir clics izquierdos o derechos en cualquier pixel que puedas enfocar con el puntero del ratón.
-- Añadir doble click: simula doble clics para acciones que lo requieran, como abrir archivos o aplicaciones.
-- Añadir pausa: introduce pausas entre acciones, permitiendo esperar a que carguen aplicaciones, páginas web, menús y submenús, etc.
-- Añadir entrada de teclado: automatiza la entrada de teclas simples, facilitando la navegación y entrada de datos.
-- Añadir combinación de teclas: permite ejecutar combinaciones de teclas para acciones como copiar y pegar.
-- Añadir texto: simula la escritura de cadenas de texto completas, útil para completar formularios, generar documentos o navegación web.
-- Añadir número autoincremental: genera números secuenciales, ideal para crear series de nombres de archivo o datos.
-- Añadir texto estático con fecha y hora: crea cadenas de texto que incluyen la fecha y hora actuales, perfecto para nombrar archivos de manera única y organizada.
+- **Añadir click automático:** permite simular clics del ratón en puntos específicos de la pantalla, útil para interactuar con aplicaciones y sitios web.
+- **Añadir click izquierdo/derecho:** ofrece la posibilidad de añadir clics izquierdos o derechos en cualquier pixel que puedas enfocar con el puntero del ratón.
+- **Añadir doble click:** simula doble clics para acciones que lo requieran, como abrir archivos o aplicaciones.
+- **Añadir pausa:** introduce pausas entre acciones, permitiendo esperar a que carguen aplicaciones, páginas web, menús y submenús, etc.
+- **Añadir entrada de teclado:** automatiza la entrada de teclas simples, facilitando la navegación y entrada de datos.
+- **Añadir combinación de teclas:** permite ejecutar combinaciones de teclas para acciones como copiar y pegar.
+- **Añadir texto:** simula la escritura de cadenas de texto completas, útil para completar formularios, generar documentos o navegación web.
+- **Añadir número autoincremental:** genera números secuenciales, ideal para crear series de nombres de archivo o datos.
+- **Añadir texto estático con fecha y hora:** crea cadenas de texto que incluyen la fecha y hora actuales, perfecto para nombrar archivos de manera única y organizada.
 
 ## Contribuir
 
