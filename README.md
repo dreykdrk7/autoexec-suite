@@ -33,7 +33,7 @@ Si deseas contribuir al proyecto, por favor lee **CONTRIBUTING.md** para obtener
 
 ## Licencia
 
-Este proyecto se encuentra bajo la **Licencia GPL3** - ver el archivo LICENSE para más detalles.
+Este proyecto se encuentra bajo la **Licencia GPL3.0** - ver el archivo LICENSE para más detalles.
 
 ## Instalación y uso
 
@@ -62,12 +62,12 @@ pip install -r requirements.txt
 
 ### Guía de Uso
 
-Para utilizar la aplicación, ejecuta `autoexec.py` desde la terminal. 
+Para utilizar la aplicación, ejecuta `main.py` desde la terminal. 
 
 ```bash
-python autoexec.py
+python main.py
 -
-python3 autoexec.py
+python3 main.py
 ```
 
 ### Ejecución Directa de Secuencias
@@ -75,7 +75,7 @@ python3 autoexec.py
 Además de la creación de secuencias a través de su interfaz de usuario, AutoExec Suite permite a los usuarios **cargar y ejecutar secuencias predefinidas** directamente desde la línea de comandos, proporcionando una manera rápida y conveniente de automatizar tareas al iniciar la aplicación:
 
 ```bash
-python autoexec.py --file nombre_del_archivo_de_secuencia --n número_de_iteraciones
+python main.py --file nombre_del_archivo_de_secuencia --n número_de_iteraciones
 ```
 
 Donde `nombre_del_archivo_de_secuencia` es el nombre del archivo que contiene tu secuencia y `número_de_iteraciones` es la cantidad de veces que deseas que se repita la secuencia.
