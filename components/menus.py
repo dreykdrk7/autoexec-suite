@@ -1,7 +1,7 @@
-from components.terminal_controller import clear_terminal
+from components.terminal_controller import clear_terminal, position_terminal
 from components.action_recorder import add_click_auto, add_left_click, add_double_click, add_right_click, add_pause, add_keyboard_input, add_compound_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
 from components.manager import save_sequence, select_sequence_file, start_sequence
-from config import HIDDEN_HEIGHT, HIDDEN_WIDTH, TERMINAL_HEIGHT, TERMINAL_WIDTH, actions
+from config import *
 
 
 def show_main_menu():
@@ -32,6 +32,7 @@ def main():
     try:
         while True:
             clear_terminal()
+            position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT])
             show_main_menu()
 
             opcion = input("Selecciona una opción: ")
@@ -57,6 +58,7 @@ def record_new_sequence():
 
     while True:
         clear_terminal()
+        position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
         show_sequence_menu()
 
         opcion = input("Selecciona una opción: ")

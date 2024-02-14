@@ -20,7 +20,7 @@ def get_screen_dimensions():
     return screen_width, screen_height
 
 
-def position_terminal(corner=True, center=False, hidden_size=[HIDDEN_WIDTH, HIDDEN_HEIGHT], visible_size=[TERMINAL_WIDTH, TERMINAL_HEIGHT]):
+def position_terminal(corner=True, center=False, hidden_size=[HIDDEN_WIDTH, HIDDEN_HEIGHT], visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT]):
     screen_width, screen_height = get_screen_dimensions()
 
     try:

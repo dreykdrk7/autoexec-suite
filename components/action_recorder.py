@@ -1,5 +1,6 @@
 import pyautogui
 import threading
+from config import *
 from time import sleep
 from datetime import datetime
 from pynput.mouse import Listener as MouseListener
@@ -20,8 +21,11 @@ def perform_action_with_coords(action_type, actions):
     actions.append(('pause', 0.5))
 
     clear_terminal()
-    position_terminal(corner=False, center=True)
-    print(f"Acción '{action_type}' añadida en ({coords[0]}, {coords[1]})")
+    position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT])
+
+    click_type = "Doble click" if action_type == 'double_click' else "Click"
+    click_button = " derecho" if action_type == 'right_click' else ""
+    print(f"{click_type}{click_button} añadido para las coordenadas -> X:{coords[0]}, Y:{coords[1]}")
     input("Pulsa cualquier tecla para continuar... ")
 
 
@@ -61,6 +65,8 @@ def add_pause(actions):
 
 
 def print_explanatory_text():
+    position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_TALL_HEIGHT])
+
     explanatory_text = """
     Ejemplos de teclas y combinaciones aceptadas:
 
@@ -89,6 +95,7 @@ def add_action_with_pause(actions, action_type, action_value):
     actions.append(('pause', 1))
     print(f"Entrada {'simple' if action_type == 'key' else 'compuesta'} añadida correctamente.\n")
     input("Pulsa cualquier tecla para continuar... ")
+    position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
 
 
 def add_keyboard_input(actions):

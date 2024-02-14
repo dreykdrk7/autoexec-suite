@@ -1,5 +1,5 @@
 from config import actions, SEQUENCE_PATH
-from components.terminal_controller import rename_terminal, clear_terminal, position_terminal
+from components.terminal_controller import rename_terminal, clear_terminal
 from components.menus import main
 from components.manager import load_sequence, execute_actions
 import argparse
@@ -16,7 +16,6 @@ if __name__ == '__main__':
 
     clear_terminal()
     rename_terminal()
-    position_terminal(corner=False, center=True)
     
     if args.file is not None:
         file_path = os.path.join(SEQUENCE_PATH, args.file)
