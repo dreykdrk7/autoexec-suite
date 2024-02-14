@@ -133,9 +133,15 @@ def execute_actions(iterations):
 
 def perform_action(action):
     action_type, *args = action
-    if action_type == 'click':
+    if action_type == 'left_click':
         x, y = args
         pyautogui.click(x, y)
+    elif action_type == 'double_click':
+        x, y = args
+        pyautogui.doubleClick(x, y)
+    elif action_type == 'right_click':
+        x, y = args
+        pyautogui.click(x, y, button='right')
     elif action_type == 'key':
         key = args[0]
         pyautogui.press(key)

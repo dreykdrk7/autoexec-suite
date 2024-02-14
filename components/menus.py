@@ -1,5 +1,5 @@
 from components.terminal_controller import clear_terminal
-from components.action_recorder import add_click_auto, add_click_manual, add_pause, add_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
+from components.action_recorder import add_click_auto, add_left_click, add_double_click, add_right_click, add_pause, add_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
 from components.manager import save_sequence, select_sequence_file, start_sequence
 from config import HIDDEN_HEIGHT, HIDDEN_WIDTH, TERMINAL_HEIGHT, TERMINAL_WIDTH, actions
 
@@ -16,13 +16,15 @@ def show_main_menu():
 def show_sequence_menu():
     print("\nMenú de Generación de Secuencia:")
     print("1. Añadir click automático (no sirve sobre cuadros de texto)")
-    print("2. Añadir click manual (para cualquier punto de la pantalla)")
-    print("3. Añadir pausa")
-    print("4. Añadir entrada de teclado")
-    print("5. Añadir texto")
-    print("6. Añadir número autoincremental (solo 1 por secuencia)")
-    print("7. Añadir texto estático con fecha y hora (útil para nombres de archivo)")
-    print("8. Detener generador de secuencia")
+    print("2. Añadir click izquierdo (sirve para cualquier pixel visible)")
+    print("3. Añadir doble click")
+    print("4. Añadir click derecho")
+    print("5. Añadir pausa")
+    print("6. Añadir entrada de teclado")
+    print("7. Añadir texto")
+    print("8. Añadir número autoincremental (solo 1 por secuencia)")
+    print("9. Añadir texto estático con fecha y hora (útil para nombres de archivo)")
+    print("10. Detener generador de secuencia")
 
 
 def main():
@@ -60,18 +62,22 @@ def record_new_sequence():
         if opcion == '1':
             add_click_auto(actions)
         elif opcion == '2':
-            add_click_manual(actions)
+            add_left_click(actions)
         elif opcion == '3':
-            add_pause(actions)
+            add_double_click(actions)
         elif opcion == '4':
-            add_keyboard_input(actions)
+            add_right_click(actions)
         elif opcion == '5':
-            add_text(actions)
+            add_pause(actions)
         elif opcion == '6':
-            add_autoincremental_number(actions)
+            add_keyboard_input(actions)
         elif opcion == '7':
-            generate_text_with_datetime(actions)
+            add_text(actions)
         elif opcion == '8':
+            add_autoincremental_number(actions)
+        elif opcion == '9':
+            generate_text_with_datetime(actions)
+        elif opcion == '10':
             break
         else:
             input("Opción no válida. Intente de nuevo.")

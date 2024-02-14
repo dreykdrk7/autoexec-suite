@@ -6,18 +6,35 @@ from pynput.mouse import Listener as MouseListener
 from components.terminal_controller import clear_terminal, position_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import save_value as save_autoincremental_value
 
-def add_click_manual(actions):
+def perform_action_with_coords(action_type, actions):
     clear_terminal()
     position_terminal(corner=True, center=False)
 
     coords = get_coordinates()
-    actions.append(('click', *coords))
-    actions.append(('pause', 0.1))
+    if action_type == 'left_click':
+        actions.append(('left_click', *coords))
+    elif action_type == 'double_click':
+        actions.append(('double_click', *coords))
+    elif action_type == 'right_click':
+        actions.append(('right_click', *coords))
+    actions.append(('pause', 0.5))
 
     clear_terminal()
     position_terminal(corner=False, center=True)
-    print(f"Click añadido en ({coords[0]}, {coords[1]})")
+    print(f"Acción '{action_type}' añadida en ({coords[0]}, {coords[1]})")
     input("Pulsa cualquier tecla para continuar... ")
+
+
+def add_left_click(actions):
+    perform_action_with_coords('left_click', actions)
+
+
+def add_double_click(actions):
+    perform_action_with_coords('double_click', actions)
+
+
+def add_right_click(actions):
+    perform_action_with_coords('right_click', actions)
 
 
 def add_click_auto(actions):
@@ -129,7 +146,7 @@ def get_coordinates():
 
 def on_click(x, y, button, pressed, actions):
     if pressed:
-        actions.append(('click', x, y))
+        actions.append(('left_click', x, y))
         actions.append(('pause', 0.1))
         print(f"Click añadido en ({x}, {y})")
         return False
