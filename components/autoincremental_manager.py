@@ -5,9 +5,9 @@ from components.config import AUTOINCREMENTAL_PATH
 def load_value():
     try:
         with open(AUTOINCREMENTAL_PATH, 'r') as file:
-            return int(file.read().strip())
+            return file.read().strip()
     except (FileNotFoundError, ValueError):
-        return 0
+        return str(0)
 
 
 def save_value(counter):
@@ -16,10 +16,10 @@ def save_value(counter):
 
 
 def increment_value():
-    counter = load_value()
+    counter = int(load_value())
     counter += 1
     save_value(counter)
-    return counter
+    return str(counter)
 
 
 def reset_counter(value=0):
