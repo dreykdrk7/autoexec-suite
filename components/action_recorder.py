@@ -60,25 +60,51 @@ def add_pause(actions):
     input("Pulsa cualquier tecla para continuar... ")
 
 
+def print_explanatory_text():
+    explanatory_text = """
+    Ejemplos de teclas y combinaciones aceptadas:
+
+    Teclas simples:
+    - "enter", "esc", "space", "tab", "del", "insert"
+    - Teclas de dirección: "up", "down", "left", "right"
+    - Teclas de modificación: "ctrl", "alt", "shift"
+    - Teclas de función: "f1", "f2", ..., "f12"
+    
+    Combinaciones de teclas:
+    - Separa las teclas con '+'. Por ejemplo: "ctrl+c", "alt+f4", "ctrl+shift+esc"
+    - Algunas combinaciones útiles: "ctrl+v" (pegar), "ctrl+c" (copiar), "ctrl+z" (deshacer)
+    
+    Teclas especiales:
+    - "home", "end", "pageup", "pagedown"
+    - "capslock", "numlock", "scrolllock"
+    - "printscreen", "pause", "break"
+    
+    Nota: Asegúrate de usar el nombre correcto de la tecla como se espera en pyautogui.
+    """
+    print(explanatory_text)
+
+
+def add_action_with_pause(actions, action_type, action_value):
+    actions.append((action_type, action_value))
+    actions.append(('pause', 1))
+    print(f"Entrada {'simple' if action_type == 'key' else 'compuesta'} añadida correctamente.\n")
+    input("Pulsa cualquier tecla para continuar... ")
+
+
 def add_keyboard_input(actions):
     clear_terminal()
+    print_explanatory_text()
 
-    explanatory_text = """
-    Ejemplos de teclas aceptadas:
-    - "enter", "esc", "space", "tab"
-    - Teclas de dirección: "up", "down", "left", "right"
-    - Modificadores: "ctrl", "alt", "shift"
-    - Función: "f1", "f2", ..., "f12"
-    Escribe el nombre de la tecla tal como aparece en la lista para añadirla.
-    """
-
-    print(explanatory_text)
     key = input("Introduce la tecla que se enviará: ")
-    actions.append(('key', key))
-    actions.append(('pause', 1))
+    add_action_with_pause(actions, 'key', key)
 
-    print("Tecla añadida correctamente.\n")
-    input("Pulsa cualquier tecla para continuar... ")
+
+def add_compound_keyboard_input(actions):
+    clear_terminal()
+    print_explanatory_text()
+
+    compound_key = input("Introduce la combinación de teclas que se enviará: ")
+    add_action_with_pause(actions, 'compound_key', compound_key)
 
 
 def add_text(actions):

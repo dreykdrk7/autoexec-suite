@@ -145,6 +145,8 @@ def perform_action(action):
     elif action_type == 'key':
         key = args[0]
         pyautogui.press(key)
+    elif action_type == 'compound_key':
+        pyautogui.hotkey(*args[0].split('+'))
     elif action_type == 'write':
         text = args[0]
         pyautogui.write(text)
