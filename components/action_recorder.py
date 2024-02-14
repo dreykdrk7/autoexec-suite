@@ -1,6 +1,7 @@
 import pyautogui
-from time import sleep
 import threading
+from time import sleep
+from datetime import datetime
 from pynput.mouse import Listener as MouseListener
 from components.terminal_controller import clear_terminal, position_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import save_value as save_autoincremental_value
@@ -88,6 +89,27 @@ def add_autoincremental_number(actions):
         input("Número autoincremental añadido.")
     except ValueError:
         input("Por favor, introduce un número válido.")
+
+
+def generate_text_with_datetime(actions):
+    clear_terminal()
+    
+    print("Nota: Al generar nombres de archivo, evita los siguientes caracteres: \n" +
+          "< > : \" / \\ | ? * y cualquier carácter no imprimible.\n" +
+          "En sistemas Unix/Linux, evita también el uso de ':'.\n")
+    
+    base_text = input("Introduce el texto base (la parte estática, por ejemplo, 'Reporte_'): \n")
+    datetime_format = input("Introduce el formato de fecha y hora (por ejemplo, '%H-%M-%S_%d-%m-%Y'): \n")
+    post_text = input("Introduce el texto adicional posterior a la fecha y hora \npor ejemplo, la extensión del archivo, deja en blanco si no es necesario): \n")
+    
+    try:
+        current_datetime = datetime.now().strftime(datetime_format)
+        full_text = f"{base_text}{current_datetime}{post_text}"
+
+        actions.append(('write', full_text))
+        input(f"Texto generado y añadido: {full_text}\nPresiona Enter para continuar...")
+    except ValueError as e:
+        input(f"Error en el formato de fecha y hora: {e}\nPresiona Enter para continuar...")
 
 
 def get_coordinates():

@@ -1,5 +1,5 @@
 from components.terminal_controller import clear_terminal
-from components.action_recorder import add_click_auto, add_click_manual, add_pause, add_keyboard_input, add_text, add_autoincremental_number
+from components.action_recorder import add_click_auto, add_click_manual, add_pause, add_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
 from components.manager import save_sequence, select_sequence_file, start_sequence
 from config import HIDDEN_HEIGHT, HIDDEN_WIDTH, TERMINAL_HEIGHT, TERMINAL_WIDTH, actions
 
@@ -21,7 +21,8 @@ def show_sequence_menu():
     print("4. Añadir entrada de teclado")
     print("5. Añadir texto")
     print("6. Añadir número autoincremental (solo 1 por secuencia)")
-    print("7. Detener generador de secuencia")
+    print("7. Añadir texto estático con fecha y hora (útil para nombres de archivo)")
+    print("8. Detener generador de secuencia")
 
 
 def main():
@@ -69,6 +70,8 @@ def record_new_sequence():
         elif opcion == '6':
             add_autoincremental_number(actions)
         elif opcion == '7':
+            generate_text_with_datetime(actions)
+        elif opcion == '8':
             break
         else:
             input("Opción no válida. Intente de nuevo.")
