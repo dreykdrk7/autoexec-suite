@@ -5,7 +5,7 @@ from time import sleep
 from pynput import keyboard
 from components.terminal_controller import clear_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import load_value, increment_value
-from config import SEQUENCE_PATH, actions, running
+from components.config import SEQUENCE_PATH, actions, running
 
 
 def save_sequence():

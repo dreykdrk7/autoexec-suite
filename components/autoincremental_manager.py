@@ -1,5 +1,5 @@
 import os
-from config import AUTOINCREMENTAL_PATH
+from components.config import AUTOINCREMENTAL_PATH
 
 
 def load_value():

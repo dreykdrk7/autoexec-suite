@@ -1,9 +1,9 @@
-from config import actions, SEQUENCE_PATH
+import argparse
+import os
+from components.config import SEQUENCE_PATH
 from components.terminal_controller import rename_terminal, clear_terminal
 from components.menus import main
 from components.manager import load_sequence, execute_actions
-import argparse
-import os
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Automatiza secuencias de acciones.')

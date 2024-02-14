@@ -1,9 +1,9 @@
 import pyautogui
 import threading
-from config import *
 from time import sleep
 from datetime import datetime
 from pynput.mouse import Listener as MouseListener
+from components.config import *
 from components.terminal_controller import clear_terminal, position_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import save_value as save_autoincremental_value
 

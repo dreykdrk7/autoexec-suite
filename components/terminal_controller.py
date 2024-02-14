@@ -1,7 +1,7 @@
 import subprocess
 import os
 import platform
-from config import *
+from components.config import *
 
 def clear_terminal():
     os_name = platform.system()     # Check the operating system
