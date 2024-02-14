@@ -3,6 +3,7 @@ from time import sleep
 import threading
 from pynput.mouse import Listener as MouseListener
 from components.terminal_controller import clear_terminal, position_terminal, minimize_terminal, restore_terminal
+from components.autoincremental_manager import save_value as save_autoincremental_value
 
 def add_click_manual(actions):
     clear_terminal()
@@ -11,7 +12,7 @@ def add_click_manual(actions):
     coords = get_coordinates()
     actions.append(('click', *coords))
     actions.append(('pause', 0.1))
-    
+
     clear_terminal()
     position_terminal(corner=False, center=True)
     print(f"Click añadido en ({coords[0]}, {coords[1]})")
@@ -71,7 +72,23 @@ def add_text(actions):
 
     print("Texto añadido correctamente.\n")
     input("Pulsa cualquier tecla para continuar... ")
-    
+
+
+def add_autoincremental_number(actions):
+    clear_terminal()
+
+    start_value = input("Introduce el valor inicial del número autoincremental (0 para cargar el valor del archivo): \n")
+    try:
+        start_value = int(start_value)
+
+        if start_value != 0:
+            save_autoincremental_value(start_value)
+
+        actions.append(('autoincrement', 0))
+        input("Número autoincremental añadido.")
+    except ValueError:
+        input("Por favor, introduce un número válido.")
+
 
 def get_coordinates():
     print("Presiona Ctrl-C cuando hayas posicionado el cursor")

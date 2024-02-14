@@ -13,6 +13,10 @@ HIDDEN_HEIGHT = 100
 SEQUENCE_PATH = './sequences/'
 
 
+## AUTOINCREMENTAL NUMBER FILE PATH
+AUTOINCREMENTAL_PATH = './components/autoincremental_value.txt'
+
+
 ## DEPENDENCIES !!! DO NOT MODIFY IN ANY CASE !!!
 actions = []
 running = True

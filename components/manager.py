@@ -4,6 +4,7 @@ import pyautogui
 from time import sleep
 from pynput import keyboard
 from components.terminal_controller import clear_terminal, minimize_terminal, restore_terminal
+from components.autoincremental_manager import load_value, increment_value
 from config import SEQUENCE_PATH, actions, running
 
 
@@ -144,3 +145,7 @@ def perform_action(action):
     elif action_type == 'pause':
         pause_seconds = args[0]
         sleep(pause_seconds)
+    elif action_type == 'autoincrement':
+        current_value = load_value()
+        pyautogui.write(current_value)
+        increment_value()
