@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 from components.config import SEQUENCE_PATH
 from components.terminal_controller import rename_terminal, clear_terminal
 from components.menus import main
@@ -11,7 +12,14 @@ def parse_arguments():
     parser.add_argument('--n', type=int, default=1, help='Establece el número de iteraciones para la secuencia.')
     return parser.parse_args()
 
+def change_working_directory_to_application_path():
+    script_path = os.path.realpath(sys.argv[0])
+    script_dir = os.path.dirname(script_path)
+    os.chdir(script_dir)
+    print(f"Directorio de trabajo cambiado a: {script_dir}")
+
 if __name__ == '__main__':
+    change_working_directory_to_application_path()
     args = parse_arguments()
 
     clear_terminal()
