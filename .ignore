@@ -1,4 +1,0 @@
-*.pyc
-components/__pycache__/*
-sequences/*.json
-.vscode/*
