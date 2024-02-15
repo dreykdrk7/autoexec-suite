@@ -1,5 +1,5 @@
 from components.terminal_controller import clear_terminal, position_terminal
-from components.action_recorder import add_click_auto, add_left_click, add_double_click, add_right_click, add_pause, add_keyboard_input, add_compound_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
+from components.action_recorder import add_click_auto, add_left_click, add_double_click, add_right_click, add_pause, add_simple_keyboard_input, add_compound_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
 from components.manager import save_sequence, select_sequence_file, start_sequence
 from components.config import *
 
@@ -73,7 +73,7 @@ def record_new_sequence():
         elif opcion == '5':
             add_pause(actions)
         elif opcion == '6':
-            add_keyboard_input(actions)
+            add_simple_keyboard_input(actions)
         elif opcion == '7':
             add_compound_keyboard_input(actions)
         elif opcion == '8':

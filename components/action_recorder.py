@@ -18,7 +18,6 @@ def perform_action_with_coords(action_type, actions):
         actions.append(('double_click', *coords))
     elif action_type == 'right_click':
         actions.append(('right_click', *coords))
-    actions.append(('pause', 0.5))
 
     clear_terminal()
     position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT])
@@ -90,20 +89,19 @@ def print_explanatory_text():
     print(explanatory_text)
 
 
-def add_action_with_pause(actions, action_type, action_value):
+def add_keyboard_input(actions, action_type, action_value):
     actions.append((action_type, action_value))
-    actions.append(('pause', 1))
     print(f"Entrada {'simple' if action_type == 'key' else 'compuesta'} añadida correctamente.\n")
     input("Pulsa cualquier tecla para continuar... ")
     position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
 
 
-def add_keyboard_input(actions):
+def add_simple_keyboard_input(actions):
     clear_terminal()
     print_explanatory_text()
 
     key = input("Introduce la tecla que se enviará: ")
-    add_action_with_pause(actions, 'key', key)
+    add_keyboard_input(actions, 'key', key)
 
 
 def add_compound_keyboard_input(actions):
@@ -111,7 +109,7 @@ def add_compound_keyboard_input(actions):
     print_explanatory_text()
 
     compound_key = input("Introduce la combinación de teclas que se enviará: ")
-    add_action_with_pause(actions, 'compound_key', compound_key)
+    add_keyboard_input(actions, 'compound_key', compound_key)
 
 
 def add_text(actions):
@@ -119,7 +117,6 @@ def add_text(actions):
 
     string = input("Introduce el texto o la cadena que quieras repetir en la secuencia:\n")
     actions.append(('write', string))
-    actions.append(('pause', 1))
 
     print("Texto añadido correctamente.\n")
     input("Pulsa cualquier tecla para continuar... ")
@@ -180,7 +177,6 @@ def get_coordinates():
 def on_click(x, y, button, pressed, actions):
     if pressed:
         actions.append(('left_click', x, y))
-        actions.append(('pause', 0.1))
         print(f"Click añadido en ({x}, {y})")
         return False
 
