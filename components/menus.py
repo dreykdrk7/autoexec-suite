@@ -1,5 +1,6 @@
 from components.terminal_controller import clear_terminal, position_terminal
 from components.action_recorder import add_click_auto, add_left_click, add_double_click, add_right_click, add_pause, add_simple_keyboard_input, add_compound_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
+from components.extra_settings import configure_fixed_pause, configure_telegram_bot
 from components.manager import save_sequence, select_sequence_file, start_sequence
 from components.config import *
 
@@ -7,10 +8,11 @@ from components.config import *
 def show_main_menu():
     print("\nMenú Principal:")
     print("1. Crear nueva configuración de secuencia")
-    print("2. Guardar secuencia actual")
-    print("3. Cargar secuencia desde archivo")
-    print("4. Iniciar ejecución")
-    print("5. Salir")
+    print("2. Configurar parámetros adicionales")
+    print("3. Guardar secuencia actual")
+    print("4. Cargar secuencia desde archivo")
+    print("5. Iniciar ejecución")
+    print("6. Salir")
 
 
 def show_sequence_menu():
@@ -28,6 +30,13 @@ def show_sequence_menu():
     print("11. Detener generador de secuencia")
 
 
+def show_additional_settings_menu():
+    print("\nMenú de Ajustes:")
+    print("1. Configurar pausa fija entre acciones")
+    print("2. Configurar bot de Telegram para enviar capturas de pantalla")
+    print("X. Volver al menú principal")
+
+
 def main():
     try:
         while True:
@@ -35,16 +44,18 @@ def main():
             position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT])
             show_main_menu()
 
-            opcion = input("Selecciona una opción: ")
-            if opcion == '1':
+            option = input("Selecciona una opción: ")
+            if option == '1':
                 record_new_sequence()
-            elif opcion == '2':
+            elif option == '2':
+                additional_settings_menu()
+            elif option == '3':
                 save_sequence()
-            elif opcion == '3':
+            elif option == '4':
                 select_sequence_file()
-            elif opcion == '4':
+            elif option == '5':
                 start_sequence()
-            elif opcion == '5':
+            elif option == '6':
                 print("Cerrando la aplicación. :)")
                 break
             else:
@@ -56,33 +67,59 @@ def main():
 def record_new_sequence():
     global actions
 
-    while True:
-        clear_terminal()
-        position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
-        show_sequence_menu()
+    try:
+        while True:
+            clear_terminal()
+            position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
+            show_sequence_menu()
 
-        opcion = input("Selecciona una opción: ")
-        if opcion == '1':
-            add_click_auto(actions)
-        elif opcion == '2':
-            add_left_click(actions)
-        elif opcion == '3':
-            add_double_click(actions)
-        elif opcion == '4':
-            add_right_click(actions)
-        elif opcion == '5':
-            add_pause(actions)
-        elif opcion == '6':
-            add_simple_keyboard_input(actions)
-        elif opcion == '7':
-            add_compound_keyboard_input(actions)
-        elif opcion == '8':
-            add_text(actions)
-        elif opcion == '9':
-            add_autoincremental_number(actions)
-        elif opcion == '10':
-            generate_text_with_datetime(actions)
-        elif opcion == '11':
-            break
-        else:
-            input("Opción no válida. Intente de nuevo.")
+            option = input("Selecciona una opción: ")
+            if option == '1':
+                add_click_auto(actions)
+            elif option == '2':
+                add_left_click(actions)
+            elif option == '3':
+                add_double_click(actions)
+            elif option == '4':
+                add_right_click(actions)
+            elif option == '5':
+                add_pause(actions)
+            elif option == '6':
+                add_simple_keyboard_input(actions)
+            elif option == '7':
+                add_compound_keyboard_input(actions)
+            elif option == '8':
+                add_text(actions)
+            elif option == '9':
+                add_autoincremental_number(actions)
+            elif option == '10':
+                generate_text_with_datetime(actions)
+            elif option == '11':
+                break
+            else:
+                input("Opción no válida. Intente de nuevo.")
+    except KeyboardInterrupt:
+        print("\nFinalizando la ejecución del programa. :)")
+
+
+def additional_settings_menu():
+    global settings
+
+    try:
+        while True:
+            clear_terminal()
+            position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT])
+            show_additional_settings_menu()
+            
+            option = input("Selecciona una opción: ")
+            if option == '1':
+                configure_fixed_pause(settings)
+            elif option == '2':
+                configure_telegram_bot()
+            elif option.upper() == 'X':
+                break
+            else:
+                input("Opción no válida. Por favor, intenta de nuevo.")
+    except KeyboardInterrupt:
+        print("\nFinalizando la ejecución del programa. :)")
+

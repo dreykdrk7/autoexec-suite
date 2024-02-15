@@ -21,4 +21,8 @@ AUTOINCREMENTAL_PATH = './components/autoincremental_value.txt'
 
 ## DEPENDENCIES !!! DO NOT MODIFY IN ANY CASE !!!
 actions = []
+settings = {
+    'fixed_pause': 0,
+    'telegram_notifier': None,
+}
 running = True

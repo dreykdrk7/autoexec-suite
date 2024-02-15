@@ -5,7 +5,7 @@ from time import sleep
 from pynput import keyboard
 from components.terminal_controller import clear_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import load_value, increment_value
-from components.config import SEQUENCE_PATH, actions, running
+from components.config import SEQUENCE_PATH, actions, settings, running
 
 
 def save_sequence():
@@ -24,7 +24,11 @@ def save_sequence():
     
     try:
         with open(file_path, 'w') as file:
-            json.dump(actions, file)
+            sequence = {
+                'settings': settings,
+                'actions': actions
+            }
+            json.dump(sequence, file)
         input(f"Secuencia guardada como '{file_name}.json'")
     except IOError as e:
         input(f"Error al guardar la secuencia: {e}")
@@ -65,13 +69,15 @@ def select_sequence_file():
 
 
 def load_sequence(file_path):
-    global actions
+    global settings, actions
 
     try:
         with open(file_path, 'r') as file:
-            new_actions = json.load(file)
+            new_sequence = json.load(file)
+            settings.clear()
+            settings.update(new_sequence['settings'])
             actions.clear()
-            actions.extend(new_actions)
+            actions.extend(new_sequence['actions'])
         return True
     except Exception as e:
         print(f"Error al cargar la secuencia: {e}")
@@ -118,12 +124,14 @@ def execute_actions(iterations):
                 for action in actions:
                     if not running: break
                     perform_action(action)
+                    pause_if_required()
         else:
             for _ in range(iterations):
                 if not running: break
                 for action in actions:
                     if not running: break
                     perform_action(action)
+                    pause_if_required()
     finally:
         listener.stop()
     
@@ -157,3 +165,10 @@ def perform_action(action):
         current_value = load_value()
         pyautogui.write(current_value)
         increment_value()
+
+
+def pause_if_required():
+    fixed_pause = settings.get('fixed_pause', 0)
+    if fixed_pause > 0:
+        sleep(fixed_pause)
+

@@ -26,7 +26,7 @@ if __name__ == '__main__':
     rename_terminal()
     
     if args.file is not None:
-        file_path = os.path.join(SEQUENCE_PATH, args.file)
+        file_path = os.path.join(SEQUENCE_PATH, f"{args.file}.json")
         load_sequence(file_path)
         execute_actions(args.n)
     else:
