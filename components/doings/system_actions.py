@@ -57,14 +57,14 @@ def add_screenshot_action(actions):
 
     timestamp_format = ""
     if add_timestamp:
-        # Solicita el formato del timestamp o usa un valor por defecto si se deja en blanco
         timestamp_format = input("Introduce el formato de fecha y hora (deja en blanco para usar '%H-%M-%S_%d-%m-%Y'): ")
+
         if not timestamp_format:
             timestamp_format = "%H-%M-%S_%d-%m-%Y"
 
     actions.append({
         'type': 'screenshot',
-        'args': [base_file_name, timestamp_format]  # Guarda el nombre base y el formato del timestamp
+        'args': [base_file_name, timestamp_format]
     })
 
     print(f"Acción de captura de pantalla programada: {base_file_name} con formato de timestamp '{timestamp_format}'")
