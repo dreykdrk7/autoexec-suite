@@ -2,6 +2,7 @@ from components.terminal_controller import clear_terminal, position_terminal
 from components.action_recorder import add_click_auto, add_left_click, add_double_click, add_right_click, add_pause, add_simple_keyboard_input, add_compound_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
 from components.extra_settings import configure_fixed_pause, configure_telegram_bot
 from components.manager import save_sequence, select_sequence_file, start_sequence
+from components.doings.system_actions import add_command_action
 from components.config import *
 
 
@@ -27,7 +28,8 @@ def show_sequence_menu():
     print("8. Añadir texto")
     print("9. Añadir número autoincremental (solo 1 por secuencia)")
     print("10. Añadir texto estático con fecha y hora (útil para nombres de archivo)")
-    print("11. Detener generador de secuencia")
+    print("11. (CMD) Ejecutar comando desde la terminal")
+    print("12. Detener generador de secuencia")
 
 
 def show_additional_settings_menu():
@@ -40,7 +42,7 @@ def show_additional_settings_menu():
 def main():
     try:
         while True:
-            clear_terminal()
+            # clear_terminal()
             position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT])
             show_main_menu()
 
@@ -73,7 +75,7 @@ def record_new_sequence():
             position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
             show_sequence_menu()
 
-            option = input("Selecciona una opción: ")
+            option = input("Selecciona una opción: ").lower()
             if option == '1':
                 add_click_auto(actions)
             elif option == '2':
@@ -94,7 +96,9 @@ def record_new_sequence():
                 add_autoincremental_number(actions)
             elif option == '10':
                 generate_text_with_datetime(actions)
-            elif option == '11':
+            elif option == '11' or option == 'cmd':
+                add_command_action(actions)
+            elif option == '12':
                 break
             else:
                 input("Opción no válida. Intente de nuevo.")

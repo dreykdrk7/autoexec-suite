@@ -7,17 +7,16 @@ from components.config import *
 from components.terminal_controller import clear_terminal, position_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import save_value as save_autoincremental_value
 
+
 def perform_action_with_coords(action_type, actions):
     clear_terminal()
     position_terminal(corner=True, center=False)
 
     coords = get_coordinates()
-    if action_type == 'left_click':
-        actions.append(('left_click', *coords))
-    elif action_type == 'double_click':
-        actions.append(('double_click', *coords))
-    elif action_type == 'right_click':
-        actions.append(('right_click', *coords))
+    actions.append({
+        'type': action_type,
+        'args': list(coords)
+    })
 
     clear_terminal()
     position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_SMALL_HEIGHT])
@@ -52,12 +51,14 @@ def add_click_auto(actions):
     restore_terminal()
     input("Pulsa cualquier tecla para continuar... ")
 
-
 def add_pause(actions):
     clear_terminal()
 
     tiempo = float(input("Introduce la duración de la pausa (en segundos): "))
-    actions.append(('pause', tiempo))
+    actions.append({
+        'type': 'pause',
+        'args': [tiempo]
+    })
 
     print("Pausa añadida correctamente.\n")
     input("Pulsa cualquier tecla para continuar... ")
@@ -90,7 +91,10 @@ def print_explanatory_text():
 
 
 def add_keyboard_input(actions, action_type, action_value):
-    actions.append((action_type, action_value))
+    actions.append({
+        'type': action_type,
+        'args': [action_value.lower()]
+    })
     print(f"Entrada {'simple' if action_type == 'key' else 'compuesta'} añadida correctamente.\n")
     input("Pulsa cualquier tecla para continuar... ")
     position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
@@ -116,7 +120,10 @@ def add_text(actions):
     clear_terminal()
 
     string = input("Introduce el texto o la cadena que quieras repetir en la secuencia:\n")
-    actions.append(('write', string))
+    actions.append({
+        'type': 'write',
+        'args': [string]
+    })
 
     print("Texto añadido correctamente.\n")
     input("Pulsa cualquier tecla para continuar... ")
@@ -132,7 +139,10 @@ def add_autoincremental_number(actions):
         if start_value != 0:
             save_autoincremental_value(start_value)
 
-        actions.append(('autoincrement', 0))
+        actions.append({
+            'type': 'autoincrement',
+            'args': [0]
+        })
         input("Número autoincremental añadido.")
     except ValueError:
         input("Por favor, introduce un número válido.")
@@ -153,7 +163,10 @@ def generate_text_with_datetime(actions):
         current_datetime = datetime.now().strftime(datetime_format)
         full_text = f"{base_text}{current_datetime}{post_text}"
 
-        actions.append(('write', full_text))
+        actions.append({
+            'type': 'write',
+            'args': [full_text]
+        })
         input(f"Texto generado y añadido: {full_text}\nPresiona Enter para continuar...")
     except ValueError as e:
         input(f"Error en el formato de fecha y hora: {e}\nPresiona Enter para continuar...")
@@ -176,7 +189,7 @@ def get_coordinates():
 
 def on_click(x, y, button, pressed, actions):
     if pressed:
-        actions.append(('left_click', x, y))
+        actions.append(('left_click', [x, y]))
         print(f"Click añadido en ({x}, {y})")
         return False
 

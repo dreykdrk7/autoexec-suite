@@ -6,6 +6,7 @@ from pynput import keyboard
 from components.terminal_controller import clear_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import load_value, increment_value
 from components.config import SEQUENCE_PATH, actions, settings, running
+from components.doings.system_actions import execute_command
 
 
 def save_sequence():
@@ -56,7 +57,8 @@ def select_sequence_file():
     try:
         selected_index = int(choice) - 1
         if selected_index >= 0 and selected_index < len(files):
-            if load_sequence(os.path.join(SEQUENCE_PATH, files[selected_index])):
+            file_path = os.path.join(SEQUENCE_PATH, files[selected_index])
+            if load_sequence(file_path):
                 input(f"Secuencia cargada desde '{file_path}'.")
             else:
                 input(f"Error al cargar la secuencia desde '{file_path}'.")
@@ -112,7 +114,6 @@ def on_press(key):
 def execute_actions(iterations):
     global running
     print("Pulsa F2 en cualquier momento para detener la ejecución del bucle.\nComenzamos!")
-    sleep(5)
     minimize_terminal()
 
     listener = keyboard.Listener(on_press=on_press)
@@ -140,27 +141,25 @@ def execute_actions(iterations):
 
 
 def perform_action(action):
-    action_type, *args = action
+    action_type = action['type']
+    args = action['args']
+    
     if action_type == 'left_click':
-        x, y = args
-        pyautogui.click(x, y)
+        pyautogui.click(*args)
     elif action_type == 'double_click':
-        x, y = args
-        pyautogui.doubleClick(x, y)
+        pyautogui.doubleClick(*args)
     elif action_type == 'right_click':
-        x, y = args
-        pyautogui.click(x, y, button='right')
+        pyautogui.rightClick(*args)
     elif action_type == 'key':
-        key = args[0]
-        pyautogui.press(key)
+        pyautogui.press(args[0])
     elif action_type == 'compound_key':
         pyautogui.hotkey(*args[0].split('+'))
     elif action_type == 'write':
-        text = args[0]
-        pyautogui.write(text)
+        pyautogui.write(args[0])
     elif action_type == 'pause':
-        pause_seconds = args[0]
-        sleep(pause_seconds)
+        sleep(float(args[0]))
+    elif action_type == 'run_command':
+        execute_command(*args)
     elif action_type == 'autoincrement':
         current_value = load_value()
         pyautogui.write(current_value)
