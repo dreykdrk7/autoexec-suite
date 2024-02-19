@@ -2,7 +2,7 @@ from components.terminal_controller import clear_terminal, position_terminal
 from components.action_recorder import add_click_auto, add_left_click, add_double_click, add_right_click, add_pause, add_simple_keyboard_input, add_compound_keyboard_input, add_text, add_autoincremental_number, generate_text_with_datetime
 from components.extra_settings import configure_fixed_pause, configure_telegram_bot
 from components.manager import save_sequence, select_sequence_file, start_sequence
-from components.doings.system_actions import add_command_action
+from components.doings.system_actions import add_command_action, add_screenshot_action
 from components.config import *
 
 
@@ -29,7 +29,8 @@ def show_sequence_menu():
     print("9. Añadir número autoincremental (solo 1 por secuencia)")
     print("10. Añadir texto estático con fecha y hora (útil para nombres de archivo)")
     print("11. (CMD) Ejecutar comando desde la terminal")
-    print("12. Detener generador de secuencia")
+    print("12. (SCR) Realizar una captura de pantalla")
+    print("13. Detener generador de secuencia")
 
 
 def show_additional_settings_menu():
@@ -98,7 +99,9 @@ def record_new_sequence():
                 generate_text_with_datetime(actions)
             elif option == '11' or option == 'cmd':
                 add_command_action(actions)
-            elif option == '12':
+            elif option == '12' or option == 'scr':
+                add_screenshot_action(actions)
+            elif option == '13':
                 break
             else:
                 input("Opción no válida. Intente de nuevo.")

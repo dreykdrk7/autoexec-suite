@@ -6,7 +6,7 @@ from pynput import keyboard
 from components.terminal_controller import clear_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import load_value, increment_value
 from components.config import SEQUENCE_PATH, actions, settings, running
-from components.doings.system_actions import execute_command
+from components.doings.system_actions import execute_command, execute_screenshot
 
 
 def save_sequence():
@@ -164,6 +164,8 @@ def perform_action(action):
         current_value = load_value()
         pyautogui.write(current_value)
         increment_value()
+    elif action_type == 'screenshot':
+        execute_screenshot(*args)
 
 
 def pause_if_required():

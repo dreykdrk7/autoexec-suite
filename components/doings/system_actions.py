@@ -1,7 +1,9 @@
 import subprocess
 import os
+import pyautogui
+from datetime import datetime
 from components.terminal_controller import clear_terminal
-from components.config import OUTPUT_COMMANDS_PATH
+from components.config import OUTPUT_COMMANDS_PATH, SCREENSHOTS_PATH
 
 
 def add_command_action(actions):
@@ -45,4 +47,40 @@ def execute_command(command, save_output=False, output_file=""):
             print(result.stdout)
     except subprocess.CalledProcessError as e:
         print(f"Error al ejecutar el comando: {e}")
+
+
+def add_screenshot_action(actions):
+    clear_terminal()
+
+    base_file_name = input("Introduce el nombre del archivo para guardar la captura de pantalla (sin extensión): ")
+    add_timestamp = input("¿Deseas añadir la fecha y hora al nombre del archivo? (s/n): ").lower().startswith('s')
+
+    timestamp_format = ""
+    if add_timestamp:
+        # Solicita el formato del timestamp o usa un valor por defecto si se deja en blanco
+        timestamp_format = input("Introduce el formato de fecha y hora (deja en blanco para usar '%H-%M-%S_%d-%m-%Y'): ")
+        if not timestamp_format:
+            timestamp_format = "%H-%M-%S_%d-%m-%Y"
+
+    actions.append({
+        'type': 'screenshot',
+        'args': [base_file_name, timestamp_format]  # Guarda el nombre base y el formato del timestamp
+    })
+
+    print(f"Acción de captura de pantalla programada: {base_file_name} con formato de timestamp '{timestamp_format}'")
+    input("Pulsa <Intro> para continuar... ")
+
+
+def execute_screenshot(base_file_name, timestamp_format):
+    timestamp = datetime.now().strftime(timestamp_format) if timestamp_format else ""
+    file_name = f"{base_file_name}{timestamp}.png"
+    full_screenshot_path = os.path.join(SCREENSHOTS_PATH, file_name)
+
+    screenshot_dir = os.path.dirname(full_screenshot_path)
+    if not os.path.exists(screenshot_dir):
+        os.makedirs(screenshot_dir, exist_ok=True)
+
+    pyautogui.screenshot(full_screenshot_path)
+    print(f"Captura de pantalla guardada en: {full_screenshot_path}")
+
 
