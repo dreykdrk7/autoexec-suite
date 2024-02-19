@@ -14,6 +14,8 @@ HIDDEN_HEIGHT = 100
 ## SEQUENCE PATH -> STORE AND LOAD SETUPS
 SEQUENCE_PATH = './sequences/'
 
+## OUTPUT COMMAND PATH -> SAVE OUTPUT FILES
+OUTPUT_COMMANDS_PATH = './outputs'
 
 ## AUTOINCREMENTAL NUMBER FILE PATH
 AUTOINCREMENTAL_PATH = './components/autoincremental_value.txt'
@@ -22,7 +24,7 @@ AUTOINCREMENTAL_PATH = './components/autoincremental_value.txt'
 ## DEPENDENCIES !!! DO NOT MODIFY IN ANY CASE !!!
 actions = []
 settings = {
-    'fixed_pause': 0,
+    'fixed_pause': 1,
     'telegram_notifier': None,
 }
 running = True
