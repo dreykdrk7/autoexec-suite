@@ -24,7 +24,7 @@ def perform_action_with_coords(action_type, actions):
     click_type = "Doble click" if action_type == 'double_click' else "Click"
     click_button = " derecho" if action_type == 'right_click' else ""
     print(f"{click_type}{click_button} añadido para las coordenadas -> X:{coords[0]}, Y:{coords[1]}")
-    input("Pulsa cualquier tecla para continuar... ")
+    input("Presiona <Intro> para continuar...")
 
 
 def add_left_click(actions):
@@ -49,7 +49,7 @@ def add_click_auto(actions):
     thread.join()
 
     restore_terminal()
-    input("Pulsa cualquier tecla para continuar... ")
+    input("Presiona <Intro> para continuar...")
 
 def add_pause(actions):
     clear_terminal()
@@ -60,8 +60,7 @@ def add_pause(actions):
         'args': [tiempo]
     })
 
-    print("Pausa añadida correctamente.\n")
-    input("Pulsa cualquier tecla para continuar... ")
+    input("Pausa añadida correctamente.\nPresiona <Intro> para continuar...")
 
 
 def print_explanatory_text():
@@ -96,7 +95,7 @@ def add_keyboard_input(actions, action_type, action_value):
         'args': [action_value.lower()]
     })
     print(f"Entrada {'simple' if action_type == 'key' else 'compuesta'} añadida correctamente.\n")
-    input("Pulsa cualquier tecla para continuar... ")
+    input("Presiona <Intro> para continuar... ")
     position_terminal(corner=False, center=True, visible_size=[TERMINAL_WIDTH, TERMINAL_MEDIUM_HEIGHT])
 
 
@@ -125,27 +124,28 @@ def add_text(actions):
         'args': [string]
     })
 
-    print("Texto añadido correctamente.\n")
-    input("Pulsa cualquier tecla para continuar... ")
+    input("Texto añadido correctamente.\nPresiona <Intro> para continuar...")
 
 
 def add_autoincremental_number(actions):
     clear_terminal()
 
-    start_value = input("Introduce el valor inicial del número autoincremental (0 para cargar el valor del archivo): \n")
-    try:
-        start_value = int(start_value)
+    while True:
+        start_value = input("Introduce el valor inicial del número autoincremental (0 para cargar el valor del archivo): \n")
+        try:
+            start_value = int(start_value)
 
-        if start_value != 0:
-            save_autoincremental_value(start_value)
+            if start_value != 0:
+                save_autoincremental_value(start_value)
 
-        actions.append({
-            'type': 'autoincrement',
-            'args': [0]
-        })
-        input("Número autoincremental añadido.")
-    except ValueError:
-        input("Por favor, introduce un número válido.")
+            actions.append({
+                'type': 'autoincrement',
+                'args': [0]
+            })
+            input("Número autoincremental añadido.\nPresiona <Intro> para continuar...")
+            break
+        except ValueError:
+            input("Por favor, introduce un número válido.\nPresiona <Intro> para continuar...")
 
 
 def generate_text_with_datetime(actions):
@@ -167,9 +167,9 @@ def generate_text_with_datetime(actions):
             'type': 'write',
             'args': [full_text]
         })
-        input(f"Texto generado y añadido: {full_text}\nPresiona Enter para continuar...")
+        input(f"Texto generado y añadido: {full_text}\nPresiona <Intro> para continuar...")
     except ValueError as e:
-        input(f"Error en el formato de fecha y hora: {e}\nPresiona Enter para continuar...")
+        input(f"Error en el formato de fecha y hora: {e}\nPresiona <Intro> para continuar...")
 
 
 def get_coordinates():

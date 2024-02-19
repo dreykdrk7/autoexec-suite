@@ -26,7 +26,7 @@ def add_command_action(actions):
     else:
         print(f"Comando a ejecutar: {command}")
         print("-> No se va a guardar la salida del comando.")
-    input("Pulsa cualquier tecla para continuar... ")
+    input("Presiona <Intro> para continuar...")
 
 
 def execute_command(command, save_output=False, output_file=""):
@@ -68,7 +68,7 @@ def add_screenshot_action(actions):
     })
 
     print(f"Acción de captura de pantalla programada: {base_file_name} con formato de timestamp '{timestamp_format}'")
-    input("Pulsa <Intro> para continuar... ")
+    input("Presiona <Intro> para continuar...")
 
 
 def execute_screenshot(base_file_name, timestamp_format):
