@@ -1,5 +1,7 @@
 import subprocess
+import os
 from components.terminal_controller import clear_terminal
+from components.config import OUTPUT_COMMANDS_PATH
 
 
 def add_command_action(actions):
@@ -30,9 +32,15 @@ def execute_command(command, save_output=False, output_file=""):
         result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         
         if save_output and output_file:
-            with open(output_file, 'w') as file:
+            full_output_path = os.path.join(OUTPUT_COMMANDS_PATH, output_file)
+            output_dir = os.path.dirname(full_output_path)
+            
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir, exist_ok=True)
+            
+            with open(full_output_path, 'a') as file:
                 file.write(result.stdout)
-            print(f"Salida guardada en: {output_file}")
+            print(f"Salida guardada en: {full_output_path}")
         else:
             print(result.stdout)
     except subprocess.CalledProcessError as e:
