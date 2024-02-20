@@ -3,8 +3,8 @@ import os
 import sys
 from components.config import SEQUENCE_PATH
 from components.terminal_controller import rename_terminal, clear_terminal
-from components.menus import main
-from components.manager import load_sequence, execute_actions
+from components.menus import main_menu
+from components.sequence_manager import load_sequence, execute_actions
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Automatiza secuencias de acciones.')
@@ -30,4 +30,4 @@ if __name__ == '__main__':
         load_sequence(file_path)
         execute_actions(args.n)
     else:
-        main()
+        main_menu()

@@ -6,7 +6,7 @@ from components.terminal_controller import clear_terminal
 from components.config import OUTPUT_COMMANDS_PATH, SCREENSHOTS_PATH
 
 
-def add_command_action(actions):
+def add_command_action():
     clear_terminal()
 
     command = input("Introduce el comando a ejecutar: ")
@@ -16,17 +16,17 @@ def add_command_action(actions):
     if save:
         file_name = input("Nombre del archivo donde se guardará la salida del comando: ")
 
-    actions.append({
-        'type': 'run_command',
-        'args': [command, save, file_name]
-    })
+    print(f"Comando a ejecutar: {command}")
     if save:
-        print(f"Comando a ejecutar: {command}")
         print(f"Se guardará la salida del comando en el archivo: {file_name}")
     else:
-        print(f"Comando a ejecutar: {command}")
         print("-> No se va a guardar la salida del comando.")
     input("Presiona <Intro> para continuar...")
+
+    return {
+        'type': 'run_command',
+        'args': [command, save, file_name]
+    }
 
 
 def execute_command(command, save_output=False, output_file=""):
@@ -49,26 +49,25 @@ def execute_command(command, save_output=False, output_file=""):
         print(f"Error al ejecutar el comando: {e}")
 
 
-def add_screenshot_action(actions):
+def add_screenshot_action():
     clear_terminal()
 
     base_file_name = input("Introduce el nombre del archivo para guardar la captura de pantalla (sin extensión): ")
     add_timestamp = input("¿Deseas añadir la fecha y hora al nombre del archivo? (s/n): ").lower().startswith('s')
 
-    timestamp_format = ""
+    timestamp_format = "%H-%M-%S_%d-%m-%Y"  # Valor por defecto.
     if add_timestamp:
-        timestamp_format = input("Introduce el formato de fecha y hora (deja en blanco para usar '%H-%M-%S_%d-%m-%Y'): ")
-
-        if not timestamp_format:
-            timestamp_format = "%H-%M-%S_%d-%m-%Y"
-
-    actions.append({
-        'type': 'screenshot',
-        'args': [base_file_name, timestamp_format]
-    })
+        custom_format = input("Introduce el formato de fecha y hora (deja en blanco para usar '%H-%M-%S_%d-%m-%Y'): ")
+        if custom_format:
+            timestamp_format = custom_format
 
     print(f"Acción de captura de pantalla programada: {base_file_name} con formato de timestamp '{timestamp_format}'")
     input("Presiona <Intro> para continuar...")
+
+    return {
+        'type': 'screenshot',
+        'args': [base_file_name, timestamp_format]
+    }
 
 
 def execute_screenshot(base_file_name, timestamp_format):

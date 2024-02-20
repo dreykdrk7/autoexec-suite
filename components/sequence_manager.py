@@ -6,18 +6,35 @@ from pynput import keyboard
 from components.terminal_controller import clear_terminal, minimize_terminal, restore_terminal
 from components.autoincremental_manager import load_value, increment_value
 from components.config import SEQUENCE_PATH, actions, settings, running
-from components.doings.system_actions import execute_command, execute_screenshot
+from components.system_actions import execute_command, execute_screenshot
+
+
+def reset_sequence():
+    global actions, settings
+
+    confirmation = input("¿Estás seguro de que quieres eliminar la secuencia en curso y reestablecer las configuraciones adicionales? (s/n): ").lower()
+    if confirmation == 's':
+        actions.clear()
+        settings = {
+            'fixed_pause': 1,
+            'telegram_notifier': None,
+        }
+        print("Secuencia actual eliminada.")
+    else:
+        print("Eliminación cancelada.")
+    input("Presiona <Intro> para continuar...")
 
 
 def save_sequence():
     clear_terminal()
 
     if len(actions) < 2:
-        input("La secuencia de acciones está vacía o contiene menos de 2 elementos.\nPor favor, añade más acciones antes de comenzar.")
+        print("La secuencia de acciones está vacía o contiene menos de 2 elementos.\nPor favor, añade más acciones antes de comenzar.")
+        input("Presiona <Intro> para continuar...")
         return
 
     print("Introduzca un nombre descriptivo de archivo para identificar la secuencia.\n")
-    file_name = input("Se recomienda utilizar la nomenclatura camelCase (por ejemplo, abrirNavegador):\n").strip()
+    file_name = input("Se recomienda utilizar la nomenclatura camelCase (por ejemplo, realizarLogin):\n").strip()
     file_name = "".join(c for c in file_name if c.isalnum() or c in (' ', '-')).rstrip()
     file_path = os.path.join(SEQUENCE_PATH, f"{file_name}.json")
     
@@ -30,9 +47,10 @@ def save_sequence():
                 'actions': actions
             }
             json.dump(sequence, file)
-        input(f"Secuencia guardada como '{file_name}.json'")
+        print(f"Secuencia guardada como '{file_name}.json'")
     except IOError as e:
-        input(f"Error al guardar la secuencia: {e}")
+        print(f"Error al guardar la secuencia: {e}")
+    input("Presiona <Intro> para continuar...")
 
 
 def select_sequence_file():
@@ -92,7 +110,8 @@ def start_sequence():
     clear_terminal()
 
     if len(actions) < 2:
-        input("La secuencia de acciones está vacía o contiene menos de 2 elementos.\nPor favor, añade más acciones antes de comenzar.")
+        print("La secuencia de acciones está vacía o contiene menos de 2 elementos.")
+        input("Por favor, añade más acciones antes de comenzar.")
         return
 
     try:
@@ -137,7 +156,8 @@ def execute_actions(iterations):
         listener.stop()
     
     restore_terminal()
-    input("Ejecución finalizada!\nPresione la tecla <Enter> para salir.")
+    print("Ejecución finalizada!")
+    input("Presione la tecla <Enter> para salir.")
 
 
 def perform_action(action):
